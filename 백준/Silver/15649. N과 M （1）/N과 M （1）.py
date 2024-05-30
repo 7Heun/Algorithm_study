@@ -1,15 +1,13 @@
-import sys
-from collections import deque
-input = sys.stdin.readline
 N, M = map(int, input().split())
 
-def dfs(depth, n, m, result=deque()):
-    if depth == m:
+def dfs(n, m, result=[]):
+    if m == 0:
         print(*result)
         return
-    for i in range(n):
-        if i+1 not in result:
-            result.append(i+1)
-            dfs(depth+1, n, m, result)
+    for i in range(1, n+1):
+        if i not in result:
+            result.append(i)
+            dfs(n, m-1, result)
             result.pop()
-dfs(0, N, M)
+
+dfs(N, M)
