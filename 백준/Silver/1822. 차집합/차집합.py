@@ -1,0 +1,5 @@
+na, nb = map(int, input().split())
+a = set(map(int, input().split()))
+b = set(map(int, input().split()))
+print(len(a-b))
+print(*sorted(a-b)) if len(a-b) > 0 else exit()
