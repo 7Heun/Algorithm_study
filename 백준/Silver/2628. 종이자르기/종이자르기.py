@@ -16,16 +16,7 @@ for _ in range(n):
 horizontal.sort()
 vertical.sort()
 
-height = []
-width = []
-for i in range(1, len(horizontal)):
-    height.append(horizontal[i] - horizontal[i-1])
-for i in range(1, len(vertical)):
-    width.append(vertical[i] - vertical[i-1])
+max_h = max(horizontal[i] - horizontal[i-1] for i in range(1, len(horizontal)))
+max_w = max(vertical[i] - vertical[i-1] for i in range(1, len(vertical)))
 
-ans = 0
-for he in height:
-    for wi in width:
-        ans = max(ans, he * wi)
-
-print(ans)
+print(max_h * max_w)
