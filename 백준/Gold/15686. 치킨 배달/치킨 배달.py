@@ -1,5 +1,4 @@
 from itertools import combinations
-from collections import deque
 import sys
 input = sys.stdin.readline
 
@@ -15,14 +14,12 @@ for i in range(N):
         elif board[i][j] == 1:
             houses.append((i, j))
 
-combination = combinations(chickens, M)
+combinations = combinations(chickens, M)
 min_d = float('inf')
-for c in combination:
+for c in combinations:
     sum_d = 0
-    tmp_houses = deque(houses)
-    while tmp_houses:
+    for r1, c1 in houses:
         d = float('inf')
-        r1, c1 = tmp_houses.popleft()
         for r2, c2 in c:
             d = min(d, abs(r1-r2) + abs(c1-c2))
         sum_d += d
