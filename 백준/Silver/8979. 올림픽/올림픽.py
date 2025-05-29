@@ -1,10 +1,19 @@
 import sys
 input = sys.stdin.readline
-n, k = map(int, input().split())
-medals = [list(map(int, input().split())) for _ in range(n)]
-medals.sort(key=lambda x: (x[1], x[2], x[3]), reverse=True)
-idx = [medals[i][0] for i in range(n)].index(k)
-for i in range(n):
-    if medals[idx][1:] == medals[i][1:]:
-        print(i+1)
+
+N, K = map(int, input().split())
+scores = [list(map(int, input().split())) for _ in range(N)]
+scores.sort(key = lambda x: (x[1], x[2], x[3]), reverse=True)
+
+idx = []
+for i in range(N):
+    if scores[i][0] == K:
+        idx.append(i)
+        rank = i+1
         break
+for i in range(N):
+    if i == idx[0]: continue
+    if scores[idx[0]][1:] == scores[i][1:]:
+        idx.append(i)
+        rank = min(rank, i+1)
+print(rank)
