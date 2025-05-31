@@ -3,16 +3,16 @@ input = sys.stdin.readline
 
 def dijkstra(start):
     dist = [float('inf')] * (N + 1)
-    hq = [(start, 0)]
+    hq = [(0, start)]
     while hq:
-        node, cost = heapq.heappop(hq)
+        cost, node = heapq.heappop(hq)
         if cost > dist[node]:
             continue
         for next_node, weight in graph[node]:
             new_cost = cost + weight
             if new_cost < dist[next_node]:
                 dist[next_node] = new_cost
-                heapq.heappush(hq, (next_node, new_cost))
+                heapq.heappush(hq, (new_cost, next_node))
     return dist
 
 N, M = map(int, input().split())
