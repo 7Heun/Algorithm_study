@@ -1,7 +1,7 @@
 import sys, heapq
 input = sys.stdin.readline
 
-def dijkstra(start):
+def dijkstra(start, graph):
     dist = [float('inf')] * (N + 1)
     dist[start] = 0
     hq = [(0, start)]   # 다음 방문 노드
@@ -18,17 +18,20 @@ def dijkstra(start):
     return dist
 
 N, M, X = map(int, input().split())
-graph = [[] for _ in range(N+1)]
+go_graph = [[] for _ in range(N+1)]
+back_graph = [[] for _ in range(N+1)]
+
 for _ in range(M):
     s, e, t = map(int, input().split())
-    graph[s].append((e, t))
+    back_graph[s].append((e, t))
+    go_graph[e].append((s, t))
 
 max_dist = 0
-back_dist = dijkstra(X) # X -> i
+back_dist = dijkstra(X, back_graph) # X -> i
+go_dist = dijkstra(X, go_graph) # i -> X (역방향)
 
 for i in range(1, N+1):
-    go_dist = dijkstra(i)
-    max_dist = max(max_dist, go_dist[X] + back_dist[i])
+    if go_dist[i] != float('inf') and back_dist != float('inf'):
+        max_dist = max(max_dist, go_dist[i] + back_dist[i])
 
 print(max_dist)
-    
