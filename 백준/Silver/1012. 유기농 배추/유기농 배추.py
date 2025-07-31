@@ -1,18 +1,21 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
-T = int(input())
 
+dx = [0, 0, 1, -1]
+dy = [1, -1, 0, 0]
 def dfs(x, y):
-    visited[y][x] = True
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-    for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if not (0 <= nx < M and 0 <= ny < N): continue
-        if not visited[ny][nx] and graph[ny][nx]:
-            dfs(nx, ny)
-    
+    stack = [(x, y)]
+    while stack:
+        cx, cy = stack.pop()
+        if visited[cy][cx]: continue
+        visited[cy][cx] = True
+        for i in range(4):
+            nx, ny = cx + dx[i], cy + dy[i]
+            if not (0 <= nx < M and 0 <= ny < N): continue
+            if not visited[ny][nx] and graph[ny][nx]:
+                stack.append((nx, ny))
+
+T = int(input())
 for _ in range(T):
     M, N, K = map(int, input().split())
     graph = [[0] * M for _ in range(N)]
@@ -23,7 +26,8 @@ for _ in range(T):
         graph[y][x] = 1
     for n in range(N):
         for m in range(M):
-            if graph[n][m] == 1 and not visited[n][m]:
+            if not visited[n][m] and graph[n][m]:
                 dfs(m, n)
                 ans += 1
     print(ans)
+    
