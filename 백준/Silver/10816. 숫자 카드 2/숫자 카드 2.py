@@ -1,19 +1,15 @@
 import sys
 input = sys.stdin.readline
-N = int(input())
-cards = list(map(int, input().split()))
-M = int(input())
-queries = list(map(int, input().split()))
+from collections import defaultdict
 
-cnt = {}
-for card in cards:
-    if card in cnt:
-        cnt[card] += 1
-    else:
-        cnt[card] = 1
+n = int(input())
+arr = list(map(int, input().split()))
+m = int(input())
+brr = list(map(int, input().split()))
 
-for query in queries:
-    if query in cnt:
-        print(cnt[query], end=' ')
-    else:
-        print(0, end=' ')
+cntarr = defaultdict(int)
+for a in arr:
+    cntarr[a] += 1
+
+for b in brr:
+    print(cntarr[b], end=' ')
