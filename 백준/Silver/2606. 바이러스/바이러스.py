@@ -1,23 +1,26 @@
-from collections import defaultdict
 import sys
-sys.setrecursionlimit(2000)
 input = sys.stdin.readline
+from collections import defaultdict
+sys.setrecursionlimit(10**5+5)
+
 n = int(input())
 m = int(input())
 graph = defaultdict(list)
-
 for _ in range(m):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
-visited = [False] * (n + 1)
+    u, v = map(int, input().split())
+    graph[u].append(v)
+    graph[v].append(u)
 
-def dfs(v):
-    visited[v] = True
-    cnt = 1
-    for n in graph[v]:
-        if not visited[n]:
-            cnt += dfs(n)
-    return cnt
+visited = [False] * (n+1)
+cnt = 0
 
-print(dfs(1) - 1)
+def dfs(node):
+    global cnt
+    visited[node] = True
+    for neighbor in graph[node]:
+        if not visited[neighbor]:
+            cnt += 1
+            dfs(neighbor)
+
+dfs(1)
+print(cnt)
