@@ -1,28 +1,30 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
+from collections import deque
 
-def dfs(x, y):
-    visited[y][x] = True
-    dx = [-1, 1, 0, 0, -1, 1, -1, 1]
-    dy = [0, 0, -1, 1, -1, -1, 1, 1]
-    for i in range(8):
-        nx, ny = x + dx[i], y + dy[i]
-        if not (0 <= nx < w and 0 <= ny < h): continue
-        if not visited[ny][nx] and graph[ny][nx]:
-            dfs(nx, ny)
+dx = [0, 0, -1, 1, -1, 1, -1, 1]
+dy = [1, -1, 0, 0, 1, 1, -1, -1]
+def bfs(i, j):
+    q = deque([(i, j)])
+    visited[i][j] = 1
+    while q:
+        r, c = q.popleft()
+        for d in range(8):
+            nr, nc = r + dy[d], c + dx[d]
+            if 0 <= nr < h and 0 <= nc < w:
+                if graph[nr][nc] and not visited[nr][nc]:
+                    visited[nr][nc] = 1
+                    q.append((nr, nc))
 
 while True:
     w, h = map(int, input().split())
-    if w == 0 and h == 0: break
-    graph = []
-    for _ in range(h):
-        graph.append(list(map(int, input().split())))
-    visited = [[False] * w for _ in range(h)]
-    ans = 0
-    for i in range(w):
-        for j in range(h):
-            if not visited[j][i] and graph[j][i]:
-                dfs(i, j)
-                ans += 1
-    print(ans)
+    if not w and not h: break
+    graph = [list(map(int, input().split())) for _ in range(h)]
+    visited = [[0] * w for _ in range(h)]
+    cnt = 0
+    for i in range(h):
+        for j in range(w):
+            if graph[i][j] and not visited[i][j]:
+                bfs(i, j)
+                cnt += 1
+    print(cnt)
