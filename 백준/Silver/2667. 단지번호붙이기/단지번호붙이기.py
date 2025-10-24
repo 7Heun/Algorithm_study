@@ -1,27 +1,35 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
+from collections import deque
 
-def dfs(x, y):
-    visited[y][x] = True
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
+dx = [0, 0, -1, 1]
+dy = [1, -1, 0, 0]
+
+n = int(input())
+board = [list(map(int, input().rstrip())) for _ in range(n)]
+visited = [[0] * n for _ in range(n)]
+
+def bfs(r, c):
+    q = deque([(r, c)])
     cnt = 1
-    for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
-        if not (0 <= nx < N and 0 <= ny < N): continue
-        if not visited[ny][nx] and graph[ny][nx]:
-            cnt += dfs(nx, ny)
+    while q:
+        cr, cc = q.popleft()
+        for d in range(4):
+            nr, nc = cr + dy[d], cc + dx[d]
+            if 0 <= nr < n and 0 <= nc < n:
+                if board[nr][nc] and not visited[nr][nc]:
+                    visited[nr][nc] = 1
+                    cnt += 1
+                    q.append((nr, nc))
     return cnt
 
-N = int(input())
-graph = [list(map(int, input().strip())) for _ in range(N)]
-visited = [[False] * N for _ in range(N)]
-ans = []
-for y in range(N):
-    for x in range(N):
-        if not visited[y][x] and graph[y][x]:
-            ans.append(dfs(x, y))
-ans.sort()
-print(len(ans))
-print(*ans, sep='\n')
+total = []
+for i in range(n):
+    for j in range(n):
+        if board[i][j] and not visited[i][j]:
+            visited[i][j] = 1
+            total.append(bfs(i, j))
+print(len(total))
+total.sort()
+for t in total:
+    print(t)
