@@ -1,13 +1,17 @@
 import sys
 input = sys.stdin.readline
 
-N, M = map(int, input().split())
+n, m = map(int, input().split())
 arr = list(map(int, input().split()))
-dp = [0] * (N+1)
+sums = [0] * n
+sums[0] = arr[0]
 
-for i in range(1, N+1):
-    dp[i] = dp[i-1] + arr[i-1]
+for i in range(1, n):
+    sums[i] += sums[i-1] + arr[i]
 
-for _ in range(M):
+for _ in range(m):
     i, j = map(int, input().split())
-    print(dp[j] - dp[i-1])
+    if i == 1:
+        print(sums[j-1])
+        continue
+    print(sums[j-1] - sums[i-2])
