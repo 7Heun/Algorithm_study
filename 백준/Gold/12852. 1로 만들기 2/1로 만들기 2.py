@@ -6,7 +6,7 @@ dp[1]에서 dp[n]까지
 prev 배열 만들어서 경로 역추적
 '''
 n = int(input())
-dp = ['inf'] * (n+1)
+dp = [float('inf')] * (n+1)
 dp[1] = 0
 prev = [0] * (n+1)
 
@@ -20,7 +20,7 @@ for i in range(2, n+1):
 
 path = []
 cur = n
-while cur > 0:
+while cur:
     path.append(cur)
     cur = prev[cur]
 
