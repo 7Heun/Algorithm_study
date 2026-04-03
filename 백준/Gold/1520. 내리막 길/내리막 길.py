@@ -1,6 +1,6 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(10 ** 6)
+sys.setrecursionlimit(10**5)
 
 m, n = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(m)]
