@@ -1,27 +1,33 @@
+'''
+최단거리니까 bfs가 좋을 것 같음
+zip으로 몇 글자 다른지 비교
+deque 만들고 depth 체크
+'''
+from collections import deque
+
+# 한 글자만 다른지 비교하는 함수
+def check(word1, word2):
+    diff = 0
+    for a, b in zip(word1, word2):
+        if a != b: diff += 1
+    return diff == 1
+
 def solution(begin, target, words):
-    # 서로 한 글자만 다른 단어인지 체크하는 함수
-    def is_one_diff(word1, word2):
-        diff_cnt = 0
-        for w1, w2 in zip(word1, word2):
-            if w1 != w2:
-                diff_cnt += 1
-        return True if diff_cnt == 1 else False
-    
+    # target이 words에 없으면 0 반환
+    if target not in words: return 0
     visited = [False] * len(words)
-    ans = float('inf')
+    dq = deque([(begin, 0)])
     
-    def dfs(word, cnt):
-        nonlocal ans
-        # target 만들어졌으면 가장 짧은 단계수 업데이트
-        if word == target:
-            ans = min(ans, cnt)
-            return
-        # words 순회하며 한 글자만 다른 단어 찾아서 내려감
-        for i, w in enumerate(words):
-            if not visited[i] and is_one_diff(word, w):
+    # bfs
+    while dq:
+        now_word, now_depth = dq.popleft()
+        # target 되면 현재 depth 반환
+        if now_word == target: return now_depth
+        for i, next_word in enumerate(words):
+            if visited[i]: continue
+            # 한 글자만 다르면 dq에 넣기
+            if check(now_word, next_word):
                 visited[i] = True
-                dfs(w, cnt+1)
-                visited[i] = False
-            
-    dfs(begin, 0)
-    return ans if ans != float('inf') else 0
+                dq.append((next_word, now_depth + 1))
+    # 변환 불가시 0 반환
+    return 0
