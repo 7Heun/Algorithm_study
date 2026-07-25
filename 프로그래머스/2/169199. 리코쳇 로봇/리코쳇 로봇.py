@@ -23,7 +23,7 @@ def solution(board):
 
     visited = [[False] * M for _ in range(N)]
     visited[start[0]][start[1]] = True
-    n = 1
+    
     while dq:
         cx, cy, cost = dq.popleft()
         # 종료 조건
