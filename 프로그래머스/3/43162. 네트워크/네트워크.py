@@ -1,27 +1,24 @@
 '''
-연결된 덩어리 찾기
-dfs
+dfs로 연결된 덩어리 개수 찾기
 '''
 import sys
 sys.setrecursionlimit(10**6)
-from collections import deque
-    
-def dfs(now, n, computers, visited):
-    visited[now] = True
-    for nxt in range(n):
-        if computers[now][nxt] == 1 and not visited[nxt]:
-            dfs(nxt, n, computers, visited)
-    
+
+def dfs(start, computers, visited):
+    stack = [start]
+    while stack:
+        now = stack.pop()
+        visited[now] = 1
+        for nxt in range(len(computers)):
+            if not visited[nxt] and computers[now][nxt]:
+                stack.append(nxt)
+
 def solution(n, computers):
-    visited = [False] * n
     ans = 0
-    
+    visited = [0 for _ in range(n)]
     for i in range(n):
-        # 방문 체크
-        if not visited[i]:
-            # 덩어리 찾기
-            dfs(i, n, computers, visited)
-            ans += 1
+        if visited[i]: continue
+        dfs(i, computers, visited)
+        ans += 1
     return ans
-            
-            
+        
